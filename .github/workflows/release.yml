@@ -70,7 +70,7 @@ jobs:
 
       - name: Compress build output on Linux/macOS
         #if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
-        run: zip -r Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip /Users/runner/work/tauri-test/tauri-test/src-tauri/target/x86_64-apple-darwin/release/bundle/
+        run: zip -r Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip /Users/runner/work/tauri-test2/tauri-test2/packages/hoppscotch-selfhost-desktop/src-tauri/target/x86_64-apple-darwin/release/bundle/
       
       - name: Compress build output on Windows
         if: startsWith(matrix.os, 'windows')
