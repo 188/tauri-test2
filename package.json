@@ -17,7 +17,7 @@
     "test": "pnpm -r do-test",
     "generate-ui": "pnpm -r do-build-ui",
     "tauri": "cd packages/hoppscotch-selfhost-desktop && pnpm tauri",
-    "build": "pnpm -r build"
+    "build": "cd packages/hoppscotch-selfhost-desktop && pnpm build"
   },
   "workspaces": [
     "./packages/*"
