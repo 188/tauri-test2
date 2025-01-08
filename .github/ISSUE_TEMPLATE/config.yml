@@ -1,0 +1,7 @@
+contact_links:
+  - name: Help and support
+    url: https://github.com/mamahuhu-io/postdata#support
+    about: Reach out to us on our GitHub discussions.
+  - name: Dedicated support
+    url: mailto:support@mamahuhu.io
+    about: Write to us if you'd like dedicated support using Postdata

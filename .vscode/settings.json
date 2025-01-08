@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "[rust]": {
+      "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    },
+    "rust-analyzer.linkedProjects": [
+    "packages/hoppscotch-selfhost-desktop/src-tauri/Cargo.toml"
+  ]
+}

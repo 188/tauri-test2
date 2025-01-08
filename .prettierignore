@@ -1,0 +1,9 @@
+.dependabot
+.github
+.nuxt
+.hoppscotch
+.postdata
+.vscode
+package-lock.json
+node_modules
+dist

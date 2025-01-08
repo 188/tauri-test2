@@ -1,0 +1,21 @@
+[package]
+name = "postdata-relay"
+version = "0.1.1"
+description = "A HTTP request-response relay used by Postdata Desktop and Postdata Agent for advanced request handling including custom headers, certificates, proxies, and local system integration."
+authors = ["mamahuhu <support@mamahuhu.io>"]
+edition = "2021"
+
+[dependencies]
+curl = { version="0.4.47", features = ["ntlm"] }
+tokio-util = "0.7.13"
+openssl = { version = "0.10.66", features = ["vendored"] }
+# NOTE: This crate follows `openssl-sys` from curl-rust
+# to avoid issues from version mismatch when compiling from source.
+openssl-sys = { version = "0.9.64", features = ["vendored"] }
+log = "0.4.22"
+env_logger = "0.11.6"
+thiserror = "2.0.9"
+http = "1.2.0"
+url-escape = "0.1.1"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.134"
