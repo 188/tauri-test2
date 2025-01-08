@@ -16,7 +16,8 @@
     "pre-commit": "pnpm -r do-lint && pnpm -r do-typecheck",
     "test": "pnpm -r do-test",
     "generate-ui": "pnpm -r do-build-ui",
-    "tauri": "cd packages/hoppscotch-selfhost-desktop && pnpm tauri"
+    "tauri": "cd packages/hoppscotch-selfhost-desktop && pnpm tauri",
+    "build": "pnpm -r build"
   },
   "workspaces": [
     "./packages/*"
