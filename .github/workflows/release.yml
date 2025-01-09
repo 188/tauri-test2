@@ -3,7 +3,7 @@ name: "test-on-pr"
 on:
   push:
     branches:
-      - main 
+      - main
   pull_request: {}
 
 # This workflow will build your tauri app without uploading it anywhere.
@@ -14,14 +14,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #- platform: "macos-latest" # for Arm based macs (M1 and above).
-            #args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs.
-            args: "--target x86_64-apple-darwin"
+          - platform: "macos-latest" # for Arm based macs (M1 and above).
+            args: "--target aarch64-apple-darwin"
+          #- platform: "macos-latest" # for Intel based macs.
+          #args: "--target x86_64-apple-darwin"
           #- platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
-           # args: ""
+          # args: ""
           #- platform: "windows-latest"
-            #args: ""
+          #args: ""
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
+          node-version: "20.12.2"
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -54,7 +54,7 @@ jobs:
 
       - name: cd  cd cd packages/hoppscotch-selfhost-desktop
         run: cd packages/hoppscotch-selfhost-desktop
-      
+
       # If tagName and releaseId are omitted tauri-action will only build the app and won't try to upload any assets.
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -72,7 +72,7 @@ jobs:
       - name: Compress build output on Linux/macOS
         #if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
         run: zip -r Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip /Users/runner/work/tauri-test2/tauri-test2/packages/hoppscotch-selfhost-desktop/src-tauri/target/x86_64-apple-darwin/release/bundle/
-      
+
       - name: Compress build output on Windows
         if: startsWith(matrix.os, 'windows')
         run: Compress-Archive -Path src-tauri/target/release/bundle/* -DestinationPath Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip
