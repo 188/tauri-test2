@@ -1,6 +1,6 @@
 use hex_color::HexColor;
 use std::mem::transmute;
-use std::sync::{Arc, Mutex};
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::{ffi::c_void, mem::size_of, ptr};
 use tauri::Emitter;
 use tauri::Listener;
@@ -82,7 +82,8 @@ pub fn setup_win_window(app: &mut App) {
     let window = app.get_webview_window("main").unwrap();
     let win_handle = window.hwnd().unwrap();
 
-    let win_handle = Arc::new(Mutex::new(HWND(win_handle.0)));
+    // 使用 AtomicUsize 来存储 HWND 的值
+    let win_handle = AtomicUsize::new(win_handle.0 as usize);
 
     let win_clone = win_handle.clone();
 
@@ -91,14 +92,16 @@ pub fn setup_win_window(app: &mut App) {
 
         let color = HexColor::parse_rgb(payload).unwrap();
 
-        // 获取 MutexGuard 并调用 update_bg_color
-        if let Ok(handle) = win_clone.lock() {
-            update_bg_color(&*handle, color);
-        }
+        // 获取 HWND 的值
+        let hwnd_value = win_clone.load(Ordering::SeqCst);
+        let hwnd = HWND(hwnd_value as isize);
+
+        update_bg_color(&hwnd, color);
     });
 
-    // 获取 MutexGuard 并调用 update_bg_color
-    if let Ok(handle) = win_handle.lock() {
-        update_bg_color(&*handle, HexColor::rgb(23, 23, 23));
-    }
+    // 获取 HWND 的值
+    let hwnd_value = win_handle.load(Ordering::SeqCst);
+    let hwnd = HWND(hwnd_value as isize);
+
+    update_bg_color(&hwnd, HexColor::rgb(23, 23, 23));
 }
