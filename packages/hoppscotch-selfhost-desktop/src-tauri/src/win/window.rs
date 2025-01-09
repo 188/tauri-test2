@@ -78,18 +78,30 @@ fn update_bg_color(hwnd: &HWND, bg_color: HexColor) {
 
 #[cfg(target_os = "windows")]
 pub fn setup_win_window(app: &mut App) {
+    use std::sync::{Arc, Mutex};
+    use tauri::api::window::WindowHandleExtWindows; // 引入 Tauri 提供的 Windows 特定扩展
+
     let window = app.get_webview_window("main").unwrap();
-    let win_handle = window.hwnd().unwrap();
+    let hwnd = window.hwnd().unwrap(); // 获取 HWND 指针
 
-    let win_clone = win_handle.clone();
+    // 将 HWND 包装到线程安全的 Arc<Mutex>
+    let hwnd_arc = Arc::new(Mutex::new(hwnd));
 
+    // 监听 "hopp-bg-changed" 事件
+    let hwnd_clone = Arc::clone(&hwnd_arc);
     app.listen_any("hopp-bg-changed", move |ev| {
-        let payload = serde_json::from_str::<&str>(ev.payload()).unwrap().trim();
-
-        let color = HexColor::parse_rgb(payload).unwrap();
-
-        update_bg_color(&HWND(win_clone.0), color);
+        if let Some(payload) = ev.payload() {
+            if let Ok(color) = HexColor::parse_rgb(payload.trim()) {
+                // 安全访问和使用 HWND
+                if let Ok(hwnd) = hwnd_clone.lock() {
+                    update_bg_color(&HWND(hwnd.0), color);
+                }
+            }
+        }
     });
 
-    update_bg_color(&HWND(win_handle.0), HexColor::rgb(23, 23, 23));
+    // 设置初始背景颜色
+    if let Ok(hwnd) = hwnd_arc.lock() {
+        update_bg_color(&HWND(hwnd.0), HexColor::rgb(23, 23, 23));
+    }
 }
