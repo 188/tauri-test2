@@ -84,9 +84,7 @@ pub fn setup_win_window(app: &mut App) {
     let win_clone = win_handle.clone();
 
     app.listen_any("hopp-bg-changed", move |ev| {
-        let payload = serde_json::from_str::<&str>(ev.payload().unwrap())
-            .unwrap()
-            .trim();
+        let payload = serde_json::from_str::<&str>(ev.payload()).unwrap().trim();
 
         let color = HexColor::parse_rgb(payload).unwrap();
 
