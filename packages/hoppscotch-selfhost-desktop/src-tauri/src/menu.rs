@@ -311,6 +311,7 @@ pub fn handle_event(app_handle: AppHandle, webview: &WebviewWindow, event: &Menu
         return;
     }
 
+    #[cfg(target_os = "macos")]
     if event.id() == "global/hide_others" {
         hide_other_applications();
         return;

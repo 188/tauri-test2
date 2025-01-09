@@ -76,12 +76,12 @@ fn update_bg_color(hwnd: &HWND, bg_color: HexColor) {
 
 #[cfg(target_os = "windows")]
 pub fn setup_win_window(app: &mut App) {
-    let window = app.get_window("main").unwrap();
+    let window = app.get_webview_window("main").unwrap();
     let win_handle = window.hwnd().unwrap();
 
     let win_clone = win_handle.clone();
 
-    app.listen_global("hopp-bg-changed", move |ev| {
+    app.listen_any("hopp-bg-changed", move |ev| {
         let payload = serde_json::from_str::<&str>(ev.payload().unwrap())
             .unwrap()
             .trim();
