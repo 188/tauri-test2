@@ -1,11 +1,12 @@
 use hex_color::HexColor;
+use std::mem::transmute;
+use std::sync::{Arc, Mutex};
+use std::{ffi::c_void, mem::size_of, ptr};
 use tauri::Emitter;
 use tauri::Listener;
 use tauri::WebviewWindow;
 use tauri::{App, Manager};
-
-use std::mem::transmute;
-use std::{ffi::c_void, mem::size_of, ptr};
+use windows::Win32::UI::WindowsAndMessaging::HWND;
 
 use windows::Win32::UI::Controls::{
     WTA_NONCLIENT, WTNCA_NODRAWICON, WTNCA_NOMIRRORHELP, WTNCA_NOSYSMENU,
@@ -81,15 +82,23 @@ pub fn setup_win_window(app: &mut App) {
     let window = app.get_webview_window("main").unwrap();
     let win_handle = window.hwnd().unwrap();
 
-    let win_clone = Arc::new(HWND(win_handle.0));
+    let win_handle = Arc::new(Mutex::new(HWND(win_handle.0)));
+
+    let win_clone = win_handle.clone();
 
     app.listen_any("hopp-bg-changed", move |ev| {
         let payload = serde_json::from_str::<&str>(ev.payload()).unwrap().trim();
 
         let color = HexColor::parse_rgb(payload).unwrap();
 
-        update_bg_color(&*win_clone, color);
+        // 获取 MutexGuard 并调用 update_bg_color
+        if let Ok(handle) = win_clone.lock() {
+            update_bg_color(&*handle, color);
+        }
     });
 
-    update_bg_color(&*win_handle, HexColor::rgb(23, 23, 23));
+    // 获取 MutexGuard 并调用 update_bg_color
+    if let Ok(handle) = win_handle.lock() {
+        update_bg_color(&*handle, HexColor::rgb(23, 23, 23));
+    }
 }
