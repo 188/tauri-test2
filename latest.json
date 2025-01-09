@@ -1,0 +1,23 @@
+{
+  "version": "0.10.202",
+  "notes": "See the assets to download this version and install.",
+  "pub_date": "2025-01-09T14:55:18.157Z",
+  "platforms": {
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1hJZm5ibC9Wayt4N1lWNy9YQkFzbnpMN2dveU5TRWh4RTNMZEM3ZUNqaVNxc045RlRiYmlMbEg5SnVkTVFUQ3dabVRoRUFFaHdzNUM0WUNUdGpxamdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM2NDM0NTEzCWZpbGU6UG9zdGRhdGEuYXBwLnRhci5negowMWpsOHNEeVY2SDZkN0pzYU1xT0UyRzlJVDJCSE0yZzh0QWgzNFdFWWIwbDRmMm9kSVQ0ZVZQOUtGSjF5dFhxMFhuejJLZVZxQTVNRE5kWjRjUDBDdz09Cg==",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.202/Postdata_x64.app.tar.gz"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1hJZm5ibC9Wayt4N1lWNy9YQkFzbnpMN2d",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.202/Postdata_aarch64.app.tar.gz"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1hJZm5ibC9Wayt4N1lWNy9YQkFzbnpMN2d",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.202/Postdata_0.10.202_amd64.AppImage"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1hJZm5ibC9Wayt4N1lWNy9YQkFzbnpMN2d",
+      "url": "hhttps://github.com/188/tauri-test2/releases/download/v0.10.202/Postdata_0.10.202_x64-setup.exe"
+    }
+  }
+}
