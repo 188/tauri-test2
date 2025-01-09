@@ -265,7 +265,7 @@ pub fn build<R: Runtime>(
         .build()?;
 
     #[cfg(not(target_os = "macos"))]
-    help_menu.append_items(&[separator(), &about_menu])?;
+    help_menu.append_items(&[&PredefinedMenuItem::separator(handle)?, &about_menu])?;
 
     Menu::with_items(
         handle,
