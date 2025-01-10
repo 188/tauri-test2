@@ -1,9 +1,9 @@
-name: "test-on-pr"
+name: "publish-on-tag"
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
   pull_request: {}
 
 # This workflow will build your tauri app without uploading it anywhere.
@@ -72,7 +72,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         with:
           tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-          releaseName: "App v__VERSION__"
+          releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false
@@ -86,23 +86,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         with:
-          tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-          releaseName: "App v__VERSION__"
+          tagName: v__VERSION__
+          releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
-
-      # - name: Compress build output on Linux/macOS
-      #   if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
-      #   run: zip -r Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip /Users/runner/work/tauri-test2/tauri-test2/packages/hoppscotch-selfhost-desktop/src-tauri/target/x86_64-apple-darwin/release/bundle/
-
-      # - name: Compress build output on Windows
-      #   if: startsWith(matrix.os, 'windows')
-      #   run: Compress-Archive -Path src-tauri/target/release/bundle/* -DestinationPath Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip
-
-      # - name: Upload build artifacts
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: Tauri-${{ matrix.os }}-${{ matrix.arch }}
-      #     path: Tauri-${{ matrix.os }}-${{ matrix.arch }}.zip
