@@ -1,6 +1,6 @@
 [package]
 name = "postdata-desktop"
-version = "0.10.205"
+version = "0.10.206"
 description = "Postdata is a Git-integrated, fully offline, and open-source API client"
 authors = ["Steven <steven@postdata.cn>"]
 edition = "2021"
