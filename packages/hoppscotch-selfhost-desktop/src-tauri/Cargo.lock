@@ -3149,7 +3149,7 @@ dependencies = [
 
 [[package]]
 name = "postdata-desktop"
-version = "0.1.0"
+version = "0.10.208"
 dependencies = [
  "anyhow",
  "atomic_float",

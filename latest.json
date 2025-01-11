@@ -1,0 +1,23 @@
+{
+  "version": "0.10.206",
+  "notes": "See the assets to download this version and install.",
+  "pub_date": "2025-01-10T03:15:59.162Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1NWWkJOODdNcEVic1pNNnhESFQ2WDBKREFNRGNGWk91SE9mZXp3ZUxsMDdsRW5yL0tVY3owTEhhT2FSWWk5Q1Y0eGVGeVpGUEFxMXd5VStlTVhPdXd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM2NDc3NjQ2CWZpbGU6UG9zdGRhdGEuYXBwLnRhci5negp4aldFdnp1UDNjUm0rOGFGNEJJTFhRTCt0NFF5Z281aDBQM1JRNzkybG9hNlUxLzNPdkR5QVIwcFRPYVFRQ0pEM3MzWW5mOTRLN1E5amFJbWVvMmhDZz09Cg==",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.206/Postdata_aarch64.app.tar.gz"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ1NYUUVvTHlJUkJRY09xcitoeFlDWE1kTVdGeWRURDc0TzZpM0dqaXU5c01BN0hmLzFwRDU2WnhSb2NOYUN3WEVHTzkzbTBJa1grMHJxWUVrN0tmZkFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM2NDc3NzIzCWZpbGU6UG9zdGRhdGFfMC4xMC4yMDZfYW1kNjQuQXBwSW1hZ2UKbFo1YjhhbGhEbE1oK0FyK1I3aW0yYm5lZXBZMmJCczFNSVRocHFORkt6ZWdJUTFZRUZpZWFvNUk5TEx5ZENhL0s4SzQrVWppcmFEYUx4ak5GRFhwQkE9PQo=",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.206/Postdata_0.10.206_amd64.AppImage"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ2ZVOWp6R1dtcUVMdmtFV20zdW0wVXkvM01DNDZMaDRPSzhJYlVlc0J4RmR0dUFXWGFjS3FoOWx3YnZCRnl0ZGUyaVUxd05Na2xKUkhodjhvVFllRlFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM2NDc4MTc5CWZpbGU6UG9zdGRhdGFfMC4xMC4yMDZfeDY0X2VuLVVTLm1zaQpRRnhiTEltYTFiRlQ3ZExFRHdQVnVsd1d2M252OHkwVkVQTEFqSnltMVpyVldUa2VDV3ArVFpzMjN4aGpjMXJuQXpFVncreVQrVEk2TnR0Rks2T29DUT09Cg==",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.206/Postdata_0.10.206_x64_en-US.msi"
+    },
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVXVWTENVb1pUZ2Q0TEVXUkFCNXhpQ2w0bUpMTk50T244U2pKMHkxQUc3blJOR0NrSmMxNlRsREJsV3JtUlBEWEtuTStBeWxaQ1hGRWM2MXUxc0xyMTdOcG1iOXkvQ1F3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM2NDc4OTU0CWZpbGU6UG9zdGRhdGEuYXBwLnRhci5negpGcytSdTNXSy9wRG9FcGhJaDNKeTRpT2toTU1PQk0rQ3dPMlNtbWpUMHpEYVIzeDViM1I3N0NOR25yRUJQaFFFN29nSEExWEZQa0NYbnZ0WUx5ZXVEZz09Cg==",
+      "url": "https://github.com/188/tauri-test2/releases/download/v0.10.206/Postdata_x64.app.tar.gz"
+    }
+  }
+}
