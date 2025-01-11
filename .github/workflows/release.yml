@@ -16,12 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Arm based macs (M1 and above).
-            args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs.
-            args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: ""
+          #- platform: "macos-latest" # for Arm based macs (M1 and above).
+          #  args: "--target aarch64-apple-darwin"
+          #- platform: "macos-latest" # for Intel based macs.
+          #  args: "--target x86_64-apple-darwin"
+          #- platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
+          #  args: ""
           - platform: "windows-latest"
             args: ""
 
@@ -80,11 +80,47 @@ jobs:
 
       # If tagName and releaseId are omitted tauri-action will only build the app and won't try to upload any assets.
       - name: Build Tauri App on Windows/Linux
-        if: matrix.platform != 'macos-latest'
+        if: matrix.platform == 'ubuntu-22.04'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        with:
+          tagName: v__VERSION__
+          releaseName: "v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+
+      # 5️⃣ ⚡ 生成自签名证书并编码为 Base64
+      - name: Generate and Encode Self-Signed Certificate
+        id: cert
+        run: |
+          # 创建目录
+          mkdir C:\cert
+
+          # 生成自签名证书
+          $cert = New-SelfSignedCertificate -Type CodeSigning -Subject "CN=MyApp" -CertStoreLocation "Cert:\CurrentUser\My"
+
+          # 导出证书 (.pfx) 并使用 Secrets 中的密码
+          $pwd = ConvertTo-SecureString -String "${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}" -Force -AsPlainText
+          Export-PfxCertificate -Cert $cert -FilePath "C:\cert\selfsigned.pfx" -Password $pwd
+
+          # 转为 Base64 并设置环境变量
+          $base64Cert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\cert\selfsigned.pfx"))
+          echo "WINDOWS_CERTIFICATE=$base64Cert" >> $env:GITHUB_ENV
+
+      # If tagName and releaseId are omitted tauri-action will only build the app and won't try to upload any assets.
+      - name: Build Tauri App on Windows/Linux
+        if: matrix.platform == 'windows-latest'
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          WINDOWS_CERTIFICATE: ${{ env.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
         with:
           tagName: v__VERSION__
           releaseName: "v__VERSION__"
