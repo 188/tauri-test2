@@ -11,17 +11,18 @@ on:
 jobs:
   publish-postdata:
     permissions:
+      id-token: write
       contents: write
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Arm based macs (M1 and above).
-            args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs.
-            args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: ""
+          #- platform: "macos-latest" # for Arm based macs (M1 and above).
+          #  args: "--target aarch64-apple-darwin"
+          #- platform: "macos-latest" # for Intel based macs.
+          #  args: "--target x86_64-apple-darwin"
+          #- platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
+          #  args: ""
           - platform: "windows-latest"
             args: ""
 
@@ -94,22 +95,56 @@ jobs:
           args: ${{ matrix.args }}
 
 
-      - name: Generate and Encode Self-Signed Certificate on Windows
-        if: matrix.platform == 'windows-latest'
+      # - name: Generate and Encode Self-Signed Certificate on Windows
+      #   if: matrix.platform == 'windows-latest'
+      #   id: cert
+      #   run: |
+      #     mkdir C:\cert
+
+      #     # Generate a self-signed certificate
+      #     $cert = New-SelfSignedCertificate -Type CodeSigning -Subject "CN=Postdata" -CertStoreLocation "Cert:\CurrentUser\My"
+
+      #     # Export the certificate (.pfx) and use the password in Secrets
+      #     $pwd = ConvertTo-SecureString -String "${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}" -Force -AsPlainText
+      #     Export-PfxCertificate -Cert $cert -FilePath "C:\cert\selfsigned.pfx" -Password $pwd
+
+      #     # Convert to Base64 and set the environment variables
+      #     $base64Cert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\cert\selfsigned.pfx"))
+      #     echo "WINDOWS_CERTIFICATE=$base64Cert" >> $env:GITHUB_ENV
+
+
+      - name: Install Cosign (for Fulcio)
+        shell: powershell
+        run: |
+          curl.exe -LO https://github.com/sigstore/cosign/releases/download/v2.2.0/cosign-windows-amd64.exe
+          Rename-Item cosign-windows-amd64.exe cosign.exe
+
+      - name: Authenticate and Get Fulcio Certificate
+        run: |
+          .\cosign.exe login
+          .\cosign.exe sign-blob `
+            --yes `
+            --output-certificate fulcio-cert.pem `
+            --output-signature fulcio-signature.sig `
+            README.md  # 任意文件用于获取证书
+
+      - name: Convert PEM to PFX
+        run: |
+          openssl pkcs12 -export `
+            -out fulcio-cert.pfx `
+            -inkey fulcio-cert.pem `
+            -in fulcio-cert.pem `
+            -password pass:password123
+
+      - name: Encode PFX to Base64
+        run: |
+          [Convert]::ToBase64String([IO.File]::ReadAllBytes("fulcio-cert.pfx")) | Out-File -FilePath cert_base64.txt
+
+      - name: Read Base64 Certificate
         id: cert
         run: |
-          mkdir C:\cert
-
-          # Generate a self-signed certificate
-          $cert = New-SelfSignedCertificate -Type CodeSigning -Subject "CN=Postdata" -CertStoreLocation "Cert:\CurrentUser\My"
-
-          # Export the certificate (.pfx) and use the password in Secrets
-          $pwd = ConvertTo-SecureString -String "${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}" -Force -AsPlainText
-          Export-PfxCertificate -Cert $cert -FilePath "C:\cert\selfsigned.pfx" -Password $pwd
-
-          # Convert to Base64 and set the environment variables
-          $base64Cert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\cert\selfsigned.pfx"))
-          echo "WINDOWS_CERTIFICATE=$base64Cert" >> $env:GITHUB_ENV
+          $certBase64 = Get-Content cert_base64.txt -Raw
+          echo "::set-output name=cert::$certBase64"
 
       # If tagName and releaseId are omitted tauri-action will only build the app and won't try to upload any assets.
       - name: Build Tauri App on Windows
@@ -118,8 +153,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          WINDOWS_CERTIFICATE: ${{ env.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_CERTIFICATE: ${{ steps.cert.outputs.cert }}
+          WINDOWS_CERTIFICATE_PASSWORD: "password123"
         with:
           tagName: v__VERSION__
           releaseName: "v__VERSION__"
