@@ -42,7 +42,6 @@ body:
     options:
       - Production
       - Release
-      - Deploy preview
   validations:
     required: true
 - type: dropdown
@@ -50,8 +49,6 @@ body:
   attributes:
     label: Version
     options:
-      - Cloud
-      - Self-hosted
       - Local
   validations:
     required: true

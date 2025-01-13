@@ -95,6 +95,7 @@ jobs:
 
 
       - name: Generate and Encode Self-Signed Certificate on Windows
+        if: matrix.platform == 'windows-latest'
         id: cert
         run: |
           mkdir C:\cert
